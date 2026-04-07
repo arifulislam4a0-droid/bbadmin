@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>এডমিন ড্যাশবোর্ড</title>
+  <style>
+    :root {
+      --primary: #1f7a46;
+      --danger: #c0392b;
+      --warning: #c27d00;
+      --bg: #f4fff7;
+      --card: #fff;
+      --border: #dcefe1;
+      --text: #14331e;
+      --muted: #617267
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui;
+      background: linear-gradient(180deg, #f8fffa, #edfff2);
+      color: var(--text)
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 14px
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: 900
+    }
+
+    .logout {
+      border: none;
+      background: #fff;
+      color: var(--danger);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 800
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(16, 51, 29, .06)
+    }
+
+    .stat {
+      font-size: 28px;
+      font-weight: 900;
+      margin-top: 8px
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 800
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d3e5d7;
+      border-radius: 12px;
+      font-size: 16px
+    }
+
+    .btn {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer
+    }
+
+    .btn.danger {
+      background: var(--danger)
+    }
+
+    .btn.warn {
+      background: var(--warning)
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fbfffc
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800
+    }
+
+    .processing {
+      background: #fff4da;
+      color: #a36a00
+    }
+
+    .success {
+      background: #e7ffef;
+      color: #17753e
+    }
+
+    .cancelled {
+      background: #ffe8e5;
+      color: #b4362c
+    }
+
+    @media (max-width:850px) {
+      .grid2 {
+        grid-template-columns: 1fr
+      }
+
+      .brand {
+        font-size: 22px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="top">
+      <div class="brand">এডমিন ড্যাশবোর্ড</div><button class="logout" id="logoutBtn">লগআউট</button>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="muted">টুটাল ডিপোজিট</div>
+        <div class="stat" id="totalDeposit">০ টাকা</div>
+        <div class="muted" style="margin-top:12px">টুটাল উইড্র</div>
+        <div class="stat" id="totalWithdraw">০ টাকা</div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px">পেমেন্ট মেথড এডিট</h3>
+        <label>বিকাশ নম্বর</label><input class="input" id="bkashNumber">
+        <label>নগদ নম্বর</label><input class="input" id="nagadNumber">
+        <label>এডমিন পাসওয়ার্ড</label><input class="input" id="adminPassword" type="password"
+          placeholder="কনফার্ম করার জন্য পাসওয়ার্ড দিন">
+        <button class="btn" style="margin-top:12px" id="saveMethodsBtn">সাবমিট</button>
+      </div>
+    </div>
+    <div class="card" id="offerCard" style="position:relative; margin-top:14px">
+      <button class="btn danger" id="closeOfferCard"
+        style="position:absolute; right:16px; top:16px; padding:8px 12px;">×</button>
+      <h3 style="margin:0 0 10px">Offer</h3>
+      <label>User Search</label>
+      <div class="row">
+        <input class="input" id="offerSearchPhone" placeholder="০১XXXXXXXXX বা +880..." />
+        <button class="btn" id="searchOfferBtn" style="min-width:140px">Search</button>
+      </div>
+      <div id="offerSearchResult" style="margin-top:14px; display:none">
+        <div class="muted">নাম: <span id="offerUserName"></span></div>
+        <div class="muted">মোবাইল: <span id="offerUserPhone"></span></div>
+        <button class="btn" id="showOfferControlsBtn" style="margin-top:12px">Offer দিন</button>
+      </div>
+      <div id="offerControls" style="display:none; margin-top:14px">
+        <div class="row" style="align-items:center; width:100%;">
+          <div style="flex:1">
+            <div class="muted">১০০ টাকা অফার</div>
+            <div style="font-size:24px;font-weight:900" id="offer100Count">0</div>
+          </div>
+          <div style="display:flex;gap:6px;"><button class="btn danger" id="offer100Minus"
+              style="width:44px">-</button><button class="btn" id="offer100Plus" style="width:44px">+</button></div>
+        </div>
+        <div class="row" style="align-items:center; width:100%; margin-top:12px;">
+          <div style="flex:1">
+            <div class="muted">৬০ টাকা অফার</div>
+            <div style="font-size:24px;font-weight:900" id="offer60Count">0</div>
+          </div>
+          <div style="display:flex;gap:6px;"><button class="btn danger" id="offer60Minus"
+              style="width:44px">-</button><button class="btn" id="offer60Plus" style="width:44px">+</button></div>
+        </div>
+        <label style="margin-top:12px">এডমিন পাসওয়ার্ড</label>
+        <input class="input" id="offerAdminPassword" type="password" placeholder="কনফার্ম করার জন্য পাসওয়ার্ড দিন" />
+        <button class="btn" id="offerUpdateBtn" style="margin-top:12px; display:none">Update</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <h3 style="margin:0">রিকোয়েস্ট ম্যানেজ</h3><select class="select" id="filterSelect" style="max-width:300px">
+          <option value="">সব দেখুন</option>
+          <option value="processing_deposit">প্রসেসিং ডিপোজিট</option>
+          <option value="processing_withdraw">প্রসেসিং উইড্র</option>
+          <option value="success_deposit">সাকসেস ডিপোজিট</option>
+          <option value="success_withdraw">সাকসেস উইড্র</option>
+          <option value="cancelled_deposit">বাতিল ডিপোজিট</option>
+          <option value="cancelled_withdraw">বাতিল উইড্র</option>
+        </select>
+      </div>
+      <div class="list" id="requestList"></div>
+    </div>
+  </div>
+  <script>
+    const API_BASE = 'https://ss-va1s.onrender.com/api';
+    const token = localStorage.getItem('adminToken'); if (!token) location.href = 'login.html';
+    function api(path, options = {}) { return fetch(`${API_BASE}${path}`, { ...options, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, ...(options.headers || {}) } }).then(async res => { const data = await res.json(); if (!res.ok) throw new Error(data.message || 'রিকোয়েস্ট ব্যর্থ'); return data; }); }
+    function bn(n) { return `${Number(n || 0)} টাকা` }
+    let currentOfferUserId = null;
+    let currentOffer100 = 0;
+    let currentOffer60 = 0;
+    let offerChanged = false;
+
+    logoutBtn.onclick = () => { localStorage.removeItem('adminToken'); location.href = 'login.html' };
+    async function loadDashboard() { const data = await api('/admin/dashboard'); totalDeposit.textContent = bn(data.stats.totalDeposit); totalWithdraw.textContent = bn(data.stats.totalWithdraw); bkashNumber.value = data.methods.bkash || '0000'; nagadNumber.value = data.methods.nagad || '0000'; }
+    saveMethodsBtn.onclick = async () => { try { const data = await api('/admin/payment-methods', { method: 'PUT', body: JSON.stringify({ bkashNumber: bkashNumber.value.trim(), nagadNumber: nagadNumber.value.trim(), adminPassword: adminPassword.value }) }); alert(data.message); adminPassword.value = ''; await loadDashboard(); } catch (err) { alert(err.message) } };
+    filterSelect.onchange = () => loadRequests();
+    function setOfferState(user) { currentOfferUserId = user.id; currentOffer100 = Number(user.offer100Count || 0); currentOffer60 = Number(user.offer60Count || 0); offer100Count.textContent = currentOffer100; offer60Count.textContent = currentOffer60; offerChanged = false; offerUpdateBtn.style.display = 'none'; }
+    function setOfferDirty() { offerChanged = true; offerUpdateBtn.style.display = 'block'; }
+    searchOfferBtn.onclick = async () => { try { const phone = offerSearchPhone.value.trim(); if (!phone) throw new Error('মোবাইল নম্বর দিন'); const data = await api(`/admin/user-offer?phone=${encodeURIComponent(phone)}`); offerSearchResult.style.display = 'block'; offerUserName.textContent = data.user.name; offerUserPhone.textContent = data.user.phone; showOfferControlsBtn.style.display = 'inline-block'; offerControls.style.display = 'none'; setOfferState(data.user); } catch (err) { alert(err.message) } };
+    showOfferControlsBtn.onclick = () => { if (!currentOfferUserId) return; offerControls.style.display = 'block'; };
+    offer100Plus.onclick = () => { if (currentOffer100 >= 10) return; currentOffer100 += 1; offer100Count.textContent = currentOffer100; setOfferDirty(); };
+    offer100Minus.onclick = () => { if (currentOffer100 <= 0) return; currentOffer100 -= 1; offer100Count.textContent = currentOffer100; setOfferDirty(); };
+    offer60Plus.onclick = () => { if (currentOffer60 >= 10) return; currentOffer60 += 1; offer60Count.textContent = currentOffer60; setOfferDirty(); };
+    offer60Minus.onclick = () => { if (currentOffer60 <= 0) return; currentOffer60 -= 1; offer60Count.textContent = currentOffer60; setOfferDirty(); };
+    offerUpdateBtn.onclick = async () => { try { if (!currentOfferUserId) throw new Error('প্রথমে ইউজার সার্চ করুন'); if (!offerChanged) return; if (!offerAdminPassword.value.trim()) throw new Error('এডমিন পাসওয়ার্ড দিন'); const data = await api(`/admin/user-offer/${currentOfferUserId}`, { method: 'PUT', body: JSON.stringify({ offer60Count: currentOffer60, offer100Count: currentOffer100, adminPassword: offerAdminPassword.value.trim() }) }); alert(data.message); offerAdminPassword.value = ''; setOfferState({ id: currentOfferUserId, ...data.offers }); } catch (err) { alert(err.message) } };
+    closeOfferCard.onclick = () => { offerCard.style.display = 'none'; };
+    function requestHtml(r) { const statusText = { processing: 'প্রসেসিং', success: 'সফল', cancelled: 'বাতিল' }; const isDeposit = r.type === 'deposit'; return `<div class="item"><div><strong>${isDeposit ? 'ডিপোজিট' : 'উইড্র'} রিকোয়েস্ট</strong></div><div>নাম: ${r.userName}</div><div>মোবাইল নম্বর: ${r.userPhone}</div><div>${isDeposit ? 'সে কোন মেথডে টাকা দিয়েছে' : 'তার কোন মেথডে পেমেন্ট নিতে চায়'}: ${r.method === 'bkash' ? 'বিকাশ' : 'নগদ'}</div>${isDeposit ? `<div>যে মোবাইল নম্বরে টাকা দিয়েছে: ${r.merchantNumber}</div><div>যে নম্বর থেকে টাকা দিয়েছে: ${r.senderNumber}</div>` : `<div>মেথড নম্বর: ${r.receiverNumber}</div>`}<div>কত টাকা: ${r.amount}</div><div>সময়: ${new Date(r.createdAt).toLocaleString('bn-BD')}</div><div>স্ট্যাটাস: <span class="status ${r.status}">${statusText[r.status]}</span></div>${r.status === 'processing' ? `<div class="row" style="margin-top:12px">${isDeposit ? `<button class="btn danger" onclick="processRequest('${r._id}','deposit','cancel')">বাতিল করুন</button><button class="btn" onclick="processRequest('${r._id}','deposit','confirm')">কর্নফাম করুন</button>` : `<button class="btn danger" onclick="processRequest('${r._id}','withdraw','cancel')">বাতিল</button><button class="btn warn" onclick="processRequest('${r._id}','withdraw','complete')">কমপ্লিট</button>`}</div>` : ''}</div>` }
+    async function loadRequests() { try { const query = filterSelect.value ? `?filter=${encodeURIComponent(filterSelect.value)}` : ''; const data = await api(`/admin/requests${query}`); requestList.innerHTML = data.requests.length ? data.requests.map(requestHtml).join('') : '<div class="item">কোন রিকোয়েস্ট পাওয়া যায়নি</div>'; } catch (err) { alert(err.message) } }
+    async function processRequest(id, type, action) { const okText = prompt(action === 'cancel' ? 'আপনি বাতিল করতে চান? ok লিখুন' : 'আপনি কনফার্ম করতে চান? ok লিখুন'); if (okText === null) return; try { const path = type === 'deposit' ? `/admin/deposits/${id}/process` : `/admin/withdraws/${id}/process`; const data = await api(path, { method: 'POST', body: JSON.stringify({ action, okText }) }); alert(data.message); await loadDashboard(); await loadRequests(); } catch (err) { alert(err.message) } }
+    window.processRequest = processRequest;
+    (async () => { try { await loadDashboard(); await loadRequests(); } catch (err) { alert(err.message); localStorage.removeItem('adminToken'); location.href = 'login.html'; } })();
+  </script>
+</body>
+
+</html>
