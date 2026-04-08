@@ -5,5 +5,5 @@
 - index.html
 
 ## গুরুত্বপূর্ণ
-প্রতিটি ফাইলে `API_BASE='https://ss-va1s.onrender.com/api'` দেওয়া আছে।
+প্রতিটি ফাইলে `API_BASE='https://ss-l59h.onrender.com/api'` দেওয়া আছে।
 ডেপ্লয় করার আগে এটাকে আপনার ব্যাকেন্ড URL অনুযায়ী বদলাবেন।
